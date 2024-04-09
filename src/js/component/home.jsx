@@ -13,7 +13,7 @@ import { ToDoArr } from "./ToDoArr";
 
 //create your first component
 const Home = () => {
-	const [taskData, setTaskData] = useState([{ value: 'Make your bed', id: crypto.randomUUID() }, { value: 'Do your Homework', id: crypto.randomUUID }])
+	const [taskData, setTaskData] = useState([{ value: 'Make your bed', id: crypto.randomUUID() }, { value: 'Do your Homework', id: crypto.randomUUID() }])
 	const [inputData, setInputData] = useState('');
 
 	const handleKeydown = (e) => {
@@ -23,7 +23,16 @@ const Home = () => {
 			setInputData('')
 		}
 		else console.log("Aun no se envia la tarea o no se presiona Enter")
+
 	}
+
+	const deleteTask = (arreglo, taskIndex) => {
+		/* 
+		let newList = arreglo.filter((newTask) => { newTask.id !== selectedTask.target.id });
+		console.log(newList)
+		*/
+	}
+
 	return (
 		<div className="text-center container ms-2 pe-2">
 			<h1 className="text-center mt-5">Hello Rigo!</h1>
@@ -33,7 +42,7 @@ const Home = () => {
 				}}
 				onKeyDown={handleKeydown}
 			/>
-			<ToDoArr arreglo={taskData} />
+			<ToDoArr arreglo={taskData} funcionDeBorrado={deleteTask} />
 		</div>
 	);
 };
