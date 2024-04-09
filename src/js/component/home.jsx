@@ -15,6 +15,7 @@ import { ToDoArr } from "./ToDoArr";
 const Home = () => {
 	const [taskData, setTaskData] = useState([{ value: 'Make your bed', id: crypto.randomUUID() }, { value: 'Do your Homework', id: crypto.randomUUID() }])
 	const [inputData, setInputData] = useState('');
+	const [taskNewData, setTaskNewData] = useState(['']);
 
 	const handleKeydown = (e) => {
 		if (e.key == 'Enter' && inputData !== '') {
@@ -26,11 +27,13 @@ const Home = () => {
 
 	}
 
-	const deleteTask = (arreglo, taskIndex) => {
-		/* 
-		let newList = arreglo.filter((newTask) => { newTask.id !== selectedTask.target.id });
+	const deleteTask = (arreglo, itemValue) => {
+		console.log('procesando solicitud de borrado')
+		console.log(arreglo)
+		console.log('arreglo encontrado.., Valor es igual a:', itemValue)
+		let newList = arreglo.map((newTask) => { newTask.value !== itemValue });
+		setTaskNewData(newList);
 		console.log(newList)
-		*/
 	}
 
 	return (
