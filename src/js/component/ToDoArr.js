@@ -1,21 +1,14 @@
 import React from "react";
-import react from "react";
-import { useState } from "react";
 
 
-
-export const ToDoArr = ({ arreglo, funcionDeBorrado }) => {
-    const mappedArray = arreglo.map((item) => {
-        return (
-            <li className="list-group-item" key={item.id}>{item.value}
-                <i className="fa-solid fa-x" onClick={(selectedTask) => {
-                    funcionDeBorrado(arreglo, item.value)
-                }}> </i> </li>)
-    })
+export const ToDoArr = ({ tarea, funcionDeBorrado }) => {
     return (
         <div className="container">
             <ul>
-                {mappedArray}
+                <li className="list-group-item"> {tarea.name}
+                    <i className="fa-solid fa-x" onClick={() => {
+                        funcionDeBorrado(tarea.name)
+                    }}> </i> </li>
             </ul>
         </div>
     );

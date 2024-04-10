@@ -13,26 +13,24 @@ import { ToDoArr } from "./ToDoArr";
 
 //create your first component
 const Home = () => {
-	const [taskData, setTaskData] = useState([{ value: 'Make your bed', id: crypto.randomUUID() }, { value: 'Do your Homework', id: crypto.randomUUID() }])
+	const [taskData, setTaskData] = useState([{ name: 'Make your bed', id: crypto.randomUUID() }, { name: 'Do your Homework', id: crypto.randomUUID() }])
 	const [inputData, setInputData] = useState('');
-	const [taskNewData, setTaskNewData] = useState(['']);
 
 	const handleKeydown = (e) => {
 		if (e.key == 'Enter' && inputData !== '') {
 			console.log(`la tarea se ha enviado satisfactoriamente con el valor: ${inputData}`)
-			setTaskData([...taskData, { value: inputData, id: crypto.randomUUID() }])
+			setTaskData([...taskData, { name: inputData, id: crypto.randomUUID() }])
 			setInputData('')
 		}
 		else console.log("Aun no se envia la tarea o no se presiona Enter")
-
 	}
 
-	const deleteTask = (arreglo, itemValue) => {
+	const deleteTask = (taskName) => {
 		console.log('procesando solicitud de borrado')
-		console.log(arreglo)
-		console.log('arreglo encontrado.., Valor es igual a:', itemValue)
-		let newList = arreglo.map((newTask) => { newTask.value !== itemValue });
-		setTaskNewData(newList);
+		console.log('arreglo encontrado.., Valor es igual a:', taskName)
+		let copyList = [...taskData];
+		let newList = copyList.filter((task) => task.name !== taskName);
+		setTaskData(newList)
 		console.log(newList)
 	}
 
@@ -45,7 +43,10 @@ const Home = () => {
 				}}
 				onKeyDown={handleKeydown}
 			/>
-			<ToDoArr arreglo={taskData} funcionDeBorrado={deleteTask} />
+			{taskData.map((task) => {
+				return <ToDoArr key={task.id} tarea={task} funcionDeBorrado={deleteTask} />
+			})}
+
 		</div>
 	);
 };
