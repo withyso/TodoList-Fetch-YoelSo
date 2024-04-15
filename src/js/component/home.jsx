@@ -35,19 +35,23 @@ const Home = () => {
 	}
 
 	return (
-		<div className="text-center container ms-2 pe-2">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<input type="text" name="" value={inputData} id="" placeholder="What needs to be done?"
-				onChange={(e) => {
-					setInputData(e.target.value)
-				}}
-				onKeyDown={handleKeydown}
-			/>
-			{taskData.map((task) => {
-				return <ToDoArr key={task.id} tarea={task} funcionDeBorrado={deleteTask} />
-			})}
-
-		</div>
+		<div className="p-5 mb-2 container">
+			<div className="mt-5" id="todosBox">
+				<div className="inputBox mt-3 mb-3">
+					<input className="inputText fs-3" type="text" name="" value={inputData} id="" placeholder="What needs to be done?"
+						onChange={(e) => {
+							setInputData(e.target.value)
+						}}
+						onKeyDown={handleKeydown}
+					/>
+				</div>
+				<div className="taskBox">
+					{taskData.map((task) => {
+						return <ToDoArr key={task.id} tarea={task} funcionDeBorrado={deleteTask} />
+					})}
+				</div>
+			</div>
+		</div >
 	);
 };
 

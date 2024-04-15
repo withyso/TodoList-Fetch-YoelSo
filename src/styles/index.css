@@ -1,12 +1,48 @@
+#todosBox{
+    border: 1px solid red;
+    max-width: 60vw;
+    min-width: 55vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #134E5E;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #71B280, #134E5E);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #71B280, #134E5E); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-/* 
 
-    You can write your own styles here...
-    
-    
-    ...Or you can use the import command to include 
-    other sylesheets into your bunde as well, e.j:
-    
-    import 'relative/path/to/stylesheet.scss';
+}
 
-*/
+.inputBox{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+    border: 1px solid blue;
+}
+
+.inputText{
+    width: 100%;
+}
+
+.taskBox{
+    border: 1px solid red;
+    width: 60%;
+}
+
+.liBox{
+    border: 1px solid red;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.singleTask{
+    display: flex;
+    flex-direction: row;
+}
+
+ul{
+    padding: 0;
+}
