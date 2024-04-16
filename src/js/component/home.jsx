@@ -15,6 +15,7 @@ import { ToDoArr } from "./ToDoArr";
 const Home = () => {
 	const [taskData, setTaskData] = useState([{ name: 'Make your bed', id: crypto.randomUUID() }, { name: 'Do your Homework', id: crypto.randomUUID() }])
 	const [inputData, setInputData] = useState('');
+	let arrAmmount = taskData.length;
 
 	const handleKeydown = (e) => {
 		if (e.key == 'Enter' && inputData !== '') {
@@ -23,6 +24,18 @@ const Home = () => {
 			setInputData('')
 		}
 		else console.log("Aun no se envia la tarea o no se presiona Enter")
+	}
+
+	function taskFilter() {
+		if (arrAmmount <= 0) {
+			return "There is no active task. Please add one";
+		}
+		if (arrAmmount == 1) {
+			return `${arrAmmount} active task`;
+		}
+		if (arrAmmount >= 1) {
+			return `${arrAmmount} active tasks`;
+		}
 	}
 
 	const deleteTask = (taskName) => {
@@ -35,10 +48,10 @@ const Home = () => {
 	}
 
 	return (
-		<div className="p-5 mb-2 container">
+		<div className="mb-2 container fullcontainer">
 			<div className="mt-5" id="todosBox">
 				<div className="inputBox mt-3 mb-3">
-					<input className="inputText fs-3" type="text" name="" value={inputData} id="" placeholder="What needs to be done?"
+					<input className="inputText fs-3 form-control" type="text" name="" value={inputData} id="" placeholder="What needs to be done?"
 						onChange={(e) => {
 							setInputData(e.target.value)
 						}}
@@ -50,6 +63,7 @@ const Home = () => {
 						return <ToDoArr key={task.id} tarea={task} funcionDeBorrado={deleteTask} />
 					})}
 				</div>
+				<div className="footer">{taskFilter()}</div>
 			</div>
 		</div >
 	);
