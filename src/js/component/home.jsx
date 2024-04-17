@@ -13,14 +13,26 @@ import { ToDoArr } from "./ToDoArr";
 
 //create your first component
 const Home = () => {
-	const [taskData, setTaskData] = useState([{ name: 'Make your bed', id: crypto.randomUUID() }, { name: 'Do your Homework', id: crypto.randomUUID() }])
+
+	//Fetch and Api functions
+	const getURL = "https://playground.4geeks.com/todo/"
+	fetch(getURL + "users/yoelwithy")
+		.then((response) => response.json())
+		.then((data) => {
+			console.log(data)
+			setTaskData(data.todos)
+		})
+		.catch((error) => { return error })
+
+	const [taskData, setTaskData] = useState([])
 	const [inputData, setInputData] = useState('');
 	let arrAmmount = taskData.length;
 
+	//Handle local data and Array functions
 	const handleKeydown = (e) => {
 		if (e.key == 'Enter' && inputData !== '') {
 			console.log(`la tarea se ha enviado satisfactoriamente con el valor: ${inputData}`)
-			setTaskData([...taskData, { name: inputData, id: crypto.randomUUID() }])
+			setTaskData([...taskData, { label: inputData, id: crypto.randomUUID() }])
 			setInputData('')
 		}
 		else console.log("Aun no se envia la tarea o no se presiona Enter")
@@ -42,7 +54,7 @@ const Home = () => {
 		console.log('procesando solicitud de borrado')
 		console.log('arreglo encontrado.., Valor es igual a:', taskName)
 		let copyList = [...taskData];
-		let newList = copyList.filter((task) => task.name !== taskName);
+		let newList = copyList.filter((task) => task.label !== taskName);
 		setTaskData(newList)
 		console.log(newList)
 	}
