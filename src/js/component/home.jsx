@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ToDoArr } from "./ToDoArr";
 
 /*To Dos application 
@@ -16,24 +16,77 @@ const Home = () => {
 
 	//Fetch and Api functions
 	const getURL = "https://playground.4geeks.com/todo/"
-	fetch(getURL + "users/yoelwithy")
-		.then((response) => response.json())
-		.then((data) => {
-			console.log(data)
-			setTaskData(data.todos)
+
+	useEffect(() => {
+		fetch(getURL + "users/yoelwithy")
+			.then((response) => response.json())
+			.then((data) => {
+				console.log(data)
+				setTaskData(data.todos)
+			})
+			.catch((error) => { return error })
+	}, [])
+
+	const getData = () => {
+		fetch(getURL + "users/yoelwithy")
+			.then((response) => response.json())
+			.then((data) => {
+				console.log(data)
+				setTaskData(data.todos)
+			})
+			.catch((error) => { return error })
+	}
+
+	const sendTask = (labelValue) => {
+		fetch(getURL + "todos/yoelwithy", {
+			method: "POST",
+			body: JSON.stringify({ "label": `${labelValue}`, "is_done": false }),
+			headers: {
+				'content-type': 'application/json'
+			}
 		})
-		.catch((error) => { return error })
+			.then(response => {
+				if (!response.ok) throw Error(response.statusText);
+				return response.json();
+			})
+			.then(response => {
+				console.log('success', response)
+				getData();
+			})
+			.catch((error) => console.log(error))
+	}
+
+	const deleteTask = (taskID) => {
+		console.log('objeto encontrado.., ID es igual a:', taskID)
+		fetch(getURL + `todos/${taskID}`, {
+			method: "DELETE",
+			headers: {
+				'content-type': 'application/json'
+			}
+		})
+			.then((response) => {
+				response.json()
+				getData();
+			})
+			.then((response) => {
+				console.log('success', response)
+			})
+			.catch((error) => { return error })
+	}
+
 
 	const [taskData, setTaskData] = useState([])
 	const [inputData, setInputData] = useState('');
+	const [eachTaskInfo, setEachTaskInfo] = useState({});
 	let arrAmmount = taskData.length;
 
 	//Handle local data and Array functions
 	const handleKeydown = (e) => {
 		if (e.key == 'Enter' && inputData !== '') {
 			console.log(`la tarea se ha enviado satisfactoriamente con el valor: ${inputData}`)
-			setTaskData([...taskData, { label: inputData, id: crypto.randomUUID() }])
-			setInputData('')
+			sendTask(inputData);
+			console.log(inputData)
+			setInputData('');
 		}
 		else console.log("Aun no se envia la tarea o no se presiona Enter")
 	}
@@ -48,15 +101,6 @@ const Home = () => {
 		if (arrAmmount >= 1) {
 			return `${arrAmmount} active tasks`;
 		}
-	}
-
-	const deleteTask = (taskName) => {
-		console.log('procesando solicitud de borrado')
-		console.log('arreglo encontrado.., Valor es igual a:', taskName)
-		let copyList = [...taskData];
-		let newList = copyList.filter((task) => task.label !== taskName);
-		setTaskData(newList)
-		console.log(newList)
 	}
 
 	return (
