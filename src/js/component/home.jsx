@@ -14,15 +14,26 @@ import { ToDoArr } from "./ToDoArr";
 //create your first component
 const Home = () => {
 
+	const [taskData, setTaskData] = useState([])
+	const [inputData, setInputData] = useState('');
+	const [eachTaskInfo, setEachTaskInfo] = useState({});
+	let arrAmmount = taskData.length;
+
 	//Fetch and Api functions
 	const getURL = "https://playground.4geeks.com/todo/"
 
 	useEffect(() => {
 		fetch(getURL + "users/yoelwithy")
-			.then((response) => response.json())
+			.then((response) => {
+				if (response.status != 200) {
+					console.log('Creating user');
+					createUser();
+				}
+				else { response.json() }
+			})
 			.then((data) => {
-				console.log(data)
 				setTaskData(data.todos)
+				console.log(data)
 			})
 			.catch((error) => { return error })
 	}, [])
@@ -31,7 +42,6 @@ const Home = () => {
 		fetch(getURL + "users/yoelwithy")
 			.then((response) => response.json())
 			.then((data) => {
-				console.log(data)
 				setTaskData(data.todos)
 			})
 			.catch((error) => { return error })
@@ -56,6 +66,24 @@ const Home = () => {
 			.catch((error) => console.log(error))
 	}
 
+	const createUser = () => {
+		fetch(getURL + "users/yoelwithy", {
+			method: "POST",
+			headers: {
+				'content-type': 'application/json'
+			}
+		})
+			.then(response => {
+				if (!response.ok) throw Error(response.statusText);
+				return response.json();
+			})
+			.then(response => {
+				console.log('success', response)
+				getData();
+			})
+			.catch((error) => console.log(error))
+	}
+
 	const deleteTask = (taskID) => {
 		console.log('objeto encontrado.., ID es igual a:', taskID)
 		fetch(getURL + `todos/${taskID}`, {
@@ -65,20 +93,14 @@ const Home = () => {
 			}
 		})
 			.then((response) => {
-				response.json()
+				if (!response.ok) throw Error(response.statusText);
 				getData();
 			})
-			.then((response) => {
-				console.log('success', response)
+			.then(() => {
+				console.log('success')
 			})
 			.catch((error) => { return error })
 	}
-
-
-	const [taskData, setTaskData] = useState([])
-	const [inputData, setInputData] = useState('');
-	const [eachTaskInfo, setEachTaskInfo] = useState({});
-	let arrAmmount = taskData.length;
 
 	//Handle local data and Array functions
 	const handleKeydown = (e) => {

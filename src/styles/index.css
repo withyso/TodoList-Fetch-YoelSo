@@ -2,7 +2,7 @@
 
 #todosBox{
     border-radius: 15px;
-    min-width: 45vw;
+    min-width: 60vw;
     max-width: 70vw;
     display: flex;
     flex-direction: column;
@@ -45,7 +45,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 75%;
+    width: 90%;
     border-bottom: 2px solid white;
 }
 
@@ -55,7 +55,7 @@
 }
 
 .taskBox{
-    width: 75%;
+    width: 80%;
 }
 
 .liBox{
